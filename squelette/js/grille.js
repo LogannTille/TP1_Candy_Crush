@@ -52,7 +52,7 @@ export default class Grille {
         console.log("On a cliqué sur la ligne " + ligne + " et la colonne " + colonne);
 
         //let cookieCliquee = this.getCookieFromLC(ligne, colonne);
-        console.log("Le cookie cliqué est de type " + cookie.type);
+        console.log("Le cookie cliqué est " + cookie.ligne + " " + cookie.colonne);
         // highlight + changer classe CSS
 
         //on va verifier l'état de la classe, si la classe est deja selectionnée, on la deselectionne
@@ -109,6 +109,7 @@ export default class Grille {
         let cookie2 = this.getCookieFromLigneColonne(ligne, colonne);
 
         this.essayerDeSwapper(cookie1, cookie2);
+        this.ajusterDispositionCookies();
       };
 
 
@@ -127,6 +128,7 @@ export default class Grille {
       this.cookiesCliquees.splice(1, 1);
     }
   }
+
   swap(cookie1, cookie2) {
     // vérifier si la distance est égale à 1
     if (!Cookie.swapDistancePossible(cookie1, cookie2)) return false;
@@ -166,36 +168,61 @@ export default class Grille {
   }
 
   checkTroisCookiesAlignes() {
-    // Vérification des lignes
-    for (let ligne = 0; ligne < this.l; ligne++) {
-      for (let colonne = 0; colonne < this.c - 2; colonne++) {
-        if (
-            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne][colonne + 1].getType() &&
-            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne][colonne + 2].getType()
-        ) {
-          // Trois cookies alignés trouvés dans la ligne
-          console.log(`Trois cookies alignés trouvés dans la ligne ${ligne}`);
-          // Ajoutez ici votre logique pour traiter le cas des trois cookies alignés
-        }
-      }
-    }
+    let alignementsTrouves = true;
 
-    // Vérification des colonnes
-    for (let colonne = 0; colonne < this.c; colonne++) {
-      for (let ligne = 0; ligne < this.l - 2; ligne++) {
-        if (
-            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne + 1][colonne].getType() &&
-            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne + 2][colonne].getType()
-        ) {
-          // Trois cookies alignés trouvés dans la colonne
-          console.log(`Trois cookies alignés trouvés dans la colonne ${colonne}`);
-          // Ajoutez ici votre logique pour traiter le cas des trois cookies alignés
+    while (alignementsTrouves) {
+      alignementsTrouves = false;
+
+      // Vérification des lignes et colonnes
+      for (let ligne = 0; ligne < this.l; ligne++) {
+        for (let colonne = 0; colonne < this.c; colonne++) {
+          // Vérification des lignes
+          if (colonne < this.c - 2 &&
+              this.tabcookies[ligne][colonne] &&
+              this.tabcookies[ligne][colonne + 1] &&
+              this.tabcookies[ligne][colonne + 2] &&
+              this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne][colonne + 1].getType() &&
+              this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne][colonne + 2].getType()) {
+            // Trois cookies alignés trouvés dans la ligne
+            console.log(`Trois cookies alignés trouvés dans la ligne ${ligne}`);
+            // Supprimer les images des cookies alignés
+            for (let i = 0; i < 3; i++) {
+              const cookie = this.tabcookies[ligne][colonne + i];
+              if (cookie) {
+                const img = cookie.htmlImage;
+                img.parentNode.removeChild(img); // Supprimer l'élément image du DOM
+                // Réinitialiser les valeurs dans le tableau de cookies
+                this.tabcookies[ligne][colonne + i] = null;
+              }
+            }
+            alignementsTrouves = true;
+          }
+
+          // Vérification des colonnes
+          if (ligne < this.l - 2 &&
+              this.tabcookies[ligne][colonne] &&
+              this.tabcookies[ligne + 1][colonne] &&
+              this.tabcookies[ligne + 2][colonne] &&
+              this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne + 1][colonne].getType() &&
+              this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne + 2][colonne].getType()) {
+            // Trois cookies alignés trouvés dans la colonne
+            console.log(`Trois cookies alignés trouvés dans la colonne ${colonne}`);
+            // Supprimer les images des cookies alignés
+            for (let i = 0; i < 3; i++) {
+              const cookie = this.tabcookies[ligne + i][colonne];
+              if (cookie) {
+                const img = cookie.htmlImage;
+                img.parentNode.removeChild(img); // Supprimer l'élément image du DOM
+                // Réinitialiser les valeurs dans le tableau de cookies
+                this.tabcookies[ligne + i][colonne] = null;
+              }
+            }
+            alignementsTrouves = true;
+          }
         }
       }
     }
   }
-
-
 
 
 }

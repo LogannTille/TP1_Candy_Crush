@@ -15,4 +15,5 @@ function init() {
 
   grille = new Grille(9, 9);
   grille.showCookies();
+  grille.checkTroisCookiesAlignes();
 }
