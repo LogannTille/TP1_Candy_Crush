@@ -340,23 +340,37 @@ export default class Grille {
 //methode qui regarde si il y a des cases vides en dessous et prend sa place instantanément
   ajusterDispositionCookies() {
     for (let colonne = 0; colonne < this.c; colonne++) {
-      let casesVides = 0;
       for (let ligne = this.l - 1; ligne >= 0; ligne--) {
         if (this.tabcookies[ligne][colonne] === null) {
-          casesVides++;
-        } else if (casesVides > 0) {
-          const cookie = this.tabcookies[ligne][colonne];
-          this.tabcookies[ligne][colonne] = null;
-          const newLigne = ligne + casesVides;
-          this.tabcookies[newLigne][colonne] = cookie;
-          cookie.htmlImage.dataset.ligne = newLigne; // Mettre à jour la position dans le dataset
-          cookie.ligne = newLigne; // Mettre à jour la propriété ligne du cookie
-          cookie.htmlImage.style.transition = `transform ${casesVides * 0.1}s`;
-          cookie.htmlImage.style.transform = `translateY(${casesVides * 80}px)`;
+          // Si la case est vide, déplacer les cookies au-dessus vers le bas
+          for (let i = ligne - 1; i >= 0; i--) {
+            if (this.tabcookies[i][colonne] !== null) {
+              const cookie = this.tabcookies[i][colonne];
+              this.tabcookies[i][colonne] = null;
+              this.tabcookies[ligne][colonne] = cookie;
+              cookie.htmlImage.dataset.ligne = ligne; // Mettre à jour la position dans le dataset
+              cookie.ligne = ligne; // Mettre à jour la propriété ligne du cookie
+              cookie.htmlImage.style.transition = `transform ${(ligne - i) * 0.1}s`;
+              cookie.htmlImage.style.transform = `translateY(${(ligne - i) * 80}px)`;
+              break;
+            }
+          }
         }
       }
     }
   }
+
+  //méthode qui remplit les cases vides avec des cookies aléatoires
+     remplirZonesVides() {
+        for (let ligne = 0; ligne < this.l; ligne++) {
+        for (let colonne = 0; colonne < this.c; colonne++) {
+            if (this.tabcookies[ligne][colonne] === null) {
+            const type = Math.floor(Math.random() * 6);
+            this.tabcookies[ligne][colonne] = new Cookie(type, ligne, colonne);
+            }
+        }
+        }
+    }
 
 
 }

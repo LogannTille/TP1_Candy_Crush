@@ -19,4 +19,5 @@ function init() {
   grille.checkQuatreCookiesAlignes();
   grille.checkTroisCookiesAlignes();
   grille.ajusterDispositionCookies();
+  grille.remplirZonesVides();
 }
