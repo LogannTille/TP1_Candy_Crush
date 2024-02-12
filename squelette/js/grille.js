@@ -142,17 +142,7 @@ export default class Grille {
 
     return true;
   }
-  getCookieFromImage(img) {
-    // On récupère la ligne et la colonne dans l'image,
-    // utilisation de l'affectation par décomposition (destructuring assigment),
-    // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Op%C3%A9rateurs/Affecter_par_d%C3%A9composition
-    let [l, c] = Cookie.getLigneColonneFromImg(img);
-    //console.log("ligne col image = " + l + " " + c);
 
-    //à partir de la ligne et de la colonne on retrouve l'objet cookie associé à l'image
-    // cliquée
-    return this.getCookieFromLigneColonne(l, c);
-  }
 
   getCookieFromLigneColonne(l, c) {
     return this.tabcookies[l][c];
@@ -176,19 +166,35 @@ export default class Grille {
   }
 
   checkTroisCookiesAlignes() {
-    for (let colonne = 0; colonne < this.c - 2; colonne++) {
-      // Vérifie si trois cookies consécutifs ont le même type dans la première ligne
-      if (
-          this.tabcookies[0][colonne].getType() === this.tabcookies[0][colonne + 1].getType() &&
-          this.tabcookies[0][colonne].getType() === this.tabcookies[0][colonne + 2].getType()
-      ) {
-        // Trois cookies alignés trouvés dans la première ligne
-        return true;
+    // Vérification des lignes
+    for (let ligne = 0; ligne < this.l; ligne++) {
+      for (let colonne = 0; colonne < this.c - 2; colonne++) {
+        if (
+            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne][colonne + 1].getType() &&
+            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne][colonne + 2].getType()
+        ) {
+          // Trois cookies alignés trouvés dans la ligne
+          console.log(`Trois cookies alignés trouvés dans la ligne ${ligne}`);
+          // Ajoutez ici votre logique pour traiter le cas des trois cookies alignés
+        }
       }
     }
-    // Aucun triplet de cookies alignés dans la première ligne
-    return false;
+
+    // Vérification des colonnes
+    for (let colonne = 0; colonne < this.c; colonne++) {
+      for (let ligne = 0; ligne < this.l - 2; ligne++) {
+        if (
+            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne + 1][colonne].getType() &&
+            this.tabcookies[ligne][colonne].getType() === this.tabcookies[ligne + 2][colonne].getType()
+        ) {
+          // Trois cookies alignés trouvés dans la colonne
+          console.log(`Trois cookies alignés trouvés dans la colonne ${colonne}`);
+          // Ajoutez ici votre logique pour traiter le cas des trois cookies alignés
+        }
+      }
+    }
   }
+
 
 
 
