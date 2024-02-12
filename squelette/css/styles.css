@@ -48,6 +48,7 @@
     transition: 0.3s all;
 }
 
+
 .cookies {
     filter: drop-shadow(2px 2px 2px #222);
 }
@@ -61,5 +62,10 @@
     transform: scale(1.2, 1.2);
     filter: drop-shadow(4px 4px 4px #222);
 
+}
+
+.score {
+    font-size: 40px;
+    color: rgb(133, 47, 47);
 }
 

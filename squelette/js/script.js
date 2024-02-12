@@ -15,4 +15,9 @@ function init() {
 
   grille = new Grille(9, 9);
   grille.showCookies();
+  grille.checkCinqCookiesAlignes();
+  grille.checkQuatreCookiesAlignes();
+  grille.checkTroisCookiesAlignes();
+  grille.ajusterDispositionCookies();
+  grille.remplirZonesVides();
 }
