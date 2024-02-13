@@ -13,6 +13,7 @@ ce que j'ai réussi chez moi :
 - alignement de 3 - 4 - 5 cookies identiques qui disparaissent.
 - faire descendre les cookies vers le bas (simulant une chute) mais pas au point...
 - le jeu sait dès le début s'il y a des alignements et places de suite les cookies vers le bas 
+- ajout des animations pour les cookies qui tombent
 
 j'ai essayé de plusieurs manières différenets d'implémenté le score, j'ai réussi pour mon jeu pour le site qui va accueillir notre jeu game on web mais là, j'ai fouillé, demandé aux IA mais rien.
 
